@@ -129,24 +129,24 @@
         width: 1.25rem;
         height: 1.25rem;
         cursor: pointer;
-        border: 2px solid #d4b5d9;
+        border: 2px solid #d946ef;
         background-color: transparent;
         transition: all 0.3s ease;
         border-radius: 4px;
     }
 
     .form-check-input:checked {
-        background: linear-gradient(135deg, #d89fe5 0%, #c48dd9 100%);
-        border-color: #c48dd9;
-        box-shadow: 0 0 8px rgba(196, 141, 217, 0.4);
+        background: linear-gradient(135deg, #d946ef 0%, #c026d3 100%);
+        border-color: #c026d3;
+        box-shadow: 0 0 12px rgba(217, 70, 239, 0.5);
     }
 
     .bulk-actions-container {
         background: linear-gradient(135deg, #fdfbfa 0%, #fcf9f7 100%);
         padding: 16px;
         border-radius: 10px;
-        border: 2px solid #ead9ec;
-        box-shadow: 0 4px 12px rgba(196, 141, 217, 0.12);
+        border: 2px solid #d946ef;
+        box-shadow: 0 4px 12px rgba(217, 70, 239, 0.15);
     }
 
     .selected-count {
@@ -199,7 +199,7 @@
 
     .delete-warning-icon {
         font-size: 3rem;
-        color: #f08080;
+        color: #ef4444;
         margin-bottom: 1rem;
         animation: pulse 2s infinite;
     }
@@ -286,32 +286,20 @@
             if (!deleteBtn || !deleteModal) return;
 
             e.preventDefault();
-            console.log('Delete button clicked');
 
-            // Get ID from button's data attributes (try multiple methods)
             let todoId = deleteBtn.getAttribute('data-todo-id');
             let todoTitle = deleteBtn.getAttribute('data-todo-title');
 
-            // Fallback to dataset if getAttribute didn't work
             if (!todoId) {
                 todoId = deleteBtn.dataset.todoId;
-                console.log('Using dataset method for ID');
             }
             if (!todoTitle) {
                 todoTitle = deleteBtn.dataset.todoTitle;
-                console.log('Using dataset method for title');
             }
 
-            console.log('Delete button element:', deleteBtn);
-            console.log('All attributes:', deleteBtn.outerHTML);
-            console.log('From data attributes - ID:', todoId, 'Title:', todoTitle);
-
-            // Get the parent todo item for animation
             const todoItem = deleteBtn.closest('.todo-item');
 
-            // Validate ID
             if (!todoId || todoId === 'null' || todoId === '' || todoId === null) {
-                console.error('ERROR: Invalid todo ID from data attribute:', todoId);
                 alert('Error: Could not identify todo. Please refresh the page and try again.');
                 return;
             }
@@ -319,52 +307,36 @@
             pendingDeleteId = String(todoId).trim();
             pendingDeleteItem = todoItem;
 
-            console.log('Set pendingDeleteId to:', pendingDeleteId);
-
-            // Update modal with todo title
             const deleteItemTitle = document.getElementById('deleteItemTitle');
             if (deleteItemTitle) {
                 deleteItemTitle.textContent = todoTitle || 'this item';
             }
 
-            console.log('Opening delete modal for ID:', pendingDeleteId);
-
-            // Show modal
             deleteModal.show();
-        }, true);  // Use capture phase to ensure we catch the click
+        }, true);
 
         // Handle confirm delete button
         const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
         const hiddenDeleteForm = document.getElementById('hidden-delete-form');
         if (confirmDeleteBtn) {
             confirmDeleteBtn.addEventListener('click', function() {
-                console.log('Confirm delete clicked. pendingDeleteId:', pendingDeleteId);
-
                 if (!pendingDeleteId || pendingDeleteId === 'null' || pendingDeleteId === '') {
-                    console.error('ERROR: No pending delete ID set!');
                     alert('Error: Todo ID is not set. Please refresh and try again.');
                     return;
                 }
 
-                // Set flag so we don't reset the ID when modal closes
                 isConfirmedDelete = true;
 
                 if (deleteModal) {
-                    // Close modal
                     deleteModal.hide();
                 }
 
-                // Animate slide out
                 if (pendingDeleteItem) {
                     pendingDeleteItem.classList.add('slide-out');
                 }
 
-                // After animation completes, submit delete request
                 setTimeout(() => {
                     const deleteUrl = `/todos/${pendingDeleteId}/delete/`;
-                    console.log('Submitting POST to:', deleteUrl);
-
-                    // Update the form action and submit
                     hiddenDeleteForm.action = deleteUrl;
                     hiddenDeleteForm.method = 'POST';
                     hiddenDeleteForm.submit();
@@ -372,12 +344,10 @@
             });
         }
 
-        // Reset pending delete when modal is cancelled/closed (but NOT after confirm)
+        // Reset pending delete when modal is cancelled/closed
         if (deleteModalEl) {
             deleteModalEl.addEventListener('hidden.bs.modal', function() {
-                // Only reset if this wasn't a confirmed delete
                 if (!isConfirmedDelete) {
-                    console.log('Modal dismissed without delete - resetting');
                     pendingDeleteId = null;
                     pendingDeleteItem = null;
                 }
