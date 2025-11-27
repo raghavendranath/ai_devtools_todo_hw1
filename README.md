@@ -1,17 +1,14 @@
-# AI-Devtools-Zoomcamp-HW
+# AI Dev Tools Zoomcamp - Homework Projects
 
-Homework projects for the AI Dev Tools Zoomcamp 2025.
+This repository contains homework projects from the [DataTalks.club AI Dev Tools Zoomcamp 2025](https://github.com/DataTalksClub/ai-dev-tools-zoomcamp).
 
 ## Projects
 
+Each project is in its own directory with its own setup and documentation.
+
 ### 01-todo - Django TODO Application
 
-A full-featured TODO application with:
-- Create, edit, and delete tasks
-- Due date assignment with date picker
-- Mark tasks as complete/incomplete
-- Bulk select and delete operations
-- Responsive UI with Bootstrap 5
+A full-featured TODO application with a vibrant UI and comprehensive test coverage.
 
 **Quick Start**:
 ```bash
@@ -20,3 +17,9 @@ python3 manage.py runserver 8001
 ```
 
 Visit: http://localhost:8001/todos/
+
+See [01-todo/README.md](01-todo/README.md) for detailed documentation.
+
+---
+
+More projects coming soon...
